@@ -18,50 +18,159 @@
         <h1>Tumblr Table</h1>
         <p>Convert data into Tumblr-allowed markup to display as a table</p>
 
-        <p class="view"><a href="https://github.com/maxbeatty/tumblr-table">View the Project on GitHub <small>maxbeatty/tumblr-table</small></a></p>
+        <p>From <a href="http://www.tumblr.com/help">Tumblr's help</a> documents:</p>
 
+        <blockquote>
+        <h4>Why isn't my post being formatted correctly on the Dashboard?</h4>
 
-        <ul>
-          <li><a href="https://github.com/maxbeatty/tumblr-table/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/maxbeatty/tumblr-table/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/maxbeatty/tumblr-table">View On <strong>GitHub</strong></a></li>
-        </ul>
+        <p>We try to filter post formatting on the Dashboard for a clean user experience. Forms, tables, CSS, Javascript, and other content may be stripped. If you see something that’s really weird, feel free to drop us a line.</p>
+        </blockquote>
+
       </header>
       <section>
-        <p>Convert data into Tumblr-allowed markup to display as a table.</p>
+        <p>Tables have been abused over the years, but they are still the best way to display tabular data.</p>
 
-<p>From <a href="http://www.tumblr.com/help">Tumblr's help</a> documents:</p>
+        <p>This tool will help you customize your Tumblr theme and generate some wacky HTML so you can display tabular data on your tumblog.</p>
 
-<blockquote>
-<h2>Why isn't my post being formatted correctly on the Dashboard?</h2>
+        <ol>
+          <li><a href="#theme">Customize your theme</a></li>
+          <li><a href="#data">Prepare your data</a></li>
+          <li><a href="#publish">Paste and publish</a></li>
+        </ol>
 
-<p>We try to filter post formatting on the Dashboard for a clean user experience. Forms, tables, CSS, Javascript, and other content may be stripped. If you see something that’s really weird, feel free to drop us a line.</p>
+        <h2><a name="theme"></a>Customize Your Theme</h2>
 
-<h2>Why isn't my post being formatted correctly on my blog?</h2>
+        <p>You will need to add some CSS to your Tumblr theme to make markup that isn't a table look like a table. I chose <code>paragraphs</code> inside of <code>blockquotes</code>. My theme already styled <code>blockquotes</code> with <code>#wrapper #content .post .copy blockquote</code> so I made sure my custom table-like styles were more specific:</p>
 
-<p>Tumblr's rich-text editor doesn't support certain advanced HTML/CSS code. You may need to use the Plain Text Editor to create advanced post embeds or to control the formatting of post text and media via HTML. You can switch to the Plain Text Editor on your Preferences page.</p>
-</blockquote>
+          <pre><code>
+            #wrapper #content .post .copy blockquote p {
+              font-family: monospace;
+              border: 1px solid #888;
+              border-bottom-width: 0;
+              padding: 2px 0 2px 4px;
+              margin: 0;
+              white-space: nowrap;
+            }
 
-<p>Tables have been abused over the years, but they are still the best way to display tabular data.</p>
+            #wrapper #content .post .copy blockquote p:last-child {
+              border-bottom-width: 1px;
+            }
+          </code></pre>
 
-<p>This tool will help you customize your Tumblr theme and generate some wacky HTML so you can display tabular data on your tumblog.</p>
+        <p>With that added to your theme, you can put this HTML into the draft text editor and see something resembling a table when previewed.</p>
+
+          <pre><code>
+            &lt;blockquote>
+              &lt;p>row1cell1 | row1cell2 | row1cell3&lt;/p>
+              &lt;p>row2cell1 | row2cell2 | row2cell3&lt;/p>
+            &lt;/blockquote>
+          </code></pre>
+
+        <h2><a name="data"></a>Prepare Your Data</h2>
+
+        <p><em>There are some options that haven't been fully developed. If you would like something, please <a href="https://github.com/maxbeatty/tumblr-table/issues">open an issue</a>.</em></p>
+
+        <p>
+          <label>
+            <strong>What are you using to represent a row?</strong>
+          </label>
+
+          <select id="rowWrap">
+              <option selected>p</option>
+              <option>li</option>
+              <option>span</option>
+              <option>code</option>
+          </select>
+        </p>
+
+        <p>
+          <label>
+            <strong>What form of data do you have?</strong>
+          </label>
+            
+          <select id="dataType">
+              <option selected>json</option>
+              <option>csv</option>
+          </select>
+        </p>
+
+        <p>
+          <strong>Can I haz your data?</strong>
+          <button type="button" id="fakeDataBtn">Fill with example data</button>
+        </p>
+        
+        <script type="text" id="fakeData">
+        [
+          {
+             "rank":1,
+             "team":"Indianapolis Colts",
+             "score":98.2
+          },
+          {
+             "rank":2,
+             "team":"Houston Texans",
+             "score":97.3
+          },
+          {
+             "rank":3,
+             "team":"Tenessee Titans",
+             "score":80
+          },
+          {
+             "rank":4,
+             "team":"Jacksonville Jaguars",
+             "score":69
+          }
+        ]
+        </script>
+        
+        <textarea id="data"></textarea>
+        
+        <hr>
+        <button type="button" id="generate">Generate Tumblr Table Markup</button>
+
+        <div class="hidden">
+            <h2>Result:</h2>
+            <textarea id="result"></textarea></div>
+        ​
       </section>
+
       <footer>
-        <p>This project is maintained by <a href="https://github.com/maxbeatty">maxbeatty</a></p>
+        <p class="view"><a href="https://github.com/maxbeatty/tumblr-table">View the Project on GitHub <small>maxbeatty/tumblr-table</small></a></p>
         <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
       </footer>
     </div>
+    
     <script src="javascripts/scale.fix.js"></script>
-              <script type="text/javascript">
-            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-          </script>
-          <script type="text/javascript">
-            try {
-              var pageTracker = _gat._getTracker("UA-7087207-7");
-            pageTracker._trackPageview();
-            } catch(err) {}
-          </script>
+    <script type="text/javascript">
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+      try {
+        var pageTracker = _gat._getTracker("UA-7087207-7");
+      pageTracker._trackPageview();
+      } catch(err) {}
+    </script>
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="javascripts/tumblr-table.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        $('#fakeDataBtn').click(function() {
+          $('#data').val($('#fakeData').text());
+        });
+
+        $('#generate').click(function() {
+          var type = $('#dataType').val(),
+              data = $('#data').val(),
+              rowWrap = $('#rowWrap').val(),
+              fakeTable = new Tumblrtable(type, data, rowWrap);
+          $('#result').val(fakeTable.result);
+          $('.hidden').removeClass('hidden');
+        })
+      });
+    </script>
 
   </body>
 </html>
