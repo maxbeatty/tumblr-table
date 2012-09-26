@@ -253,3 +253,18 @@ footer {
     color:#444;
   }
 }
+
+.hidden {
+  display: none;
+}
+
+textarea {
+    display: block;
+    width: 300px;
+    height: 300px;
+}
+
+#generate {
+  display: block;
+  font-size: 1.2em;
+}
